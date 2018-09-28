@@ -1,0 +1,38 @@
+# depslib dependency file v1.0
+1538093733 source:/home/alumno/Escritorio/P/Parcial1/pantalla.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"utn.h"
+	"pantalla.h"
+
+1538084613 /home/alumno/Escritorio/P/Parcial1/utn.h
+
+1538087917 /home/alumno/Escritorio/P/Parcial1/pantalla.h
+
+1538084613 source:/home/alumno/Escritorio/P/Parcial1/utn.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"utn.h"
+
+1538095749 source:/home/alumno/Escritorio/P/Parcial1/main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"utn.h"
+	"pantalla.h"
+	"publicidad.h"
+
+1538095773 /home/alumno/Escritorio/P/Parcial1/publicidad.h
+
+1538095749 source:/home/alumno/Escritorio/P/Parcial1/publicidad.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"utn.h"
+	"pantalla.h"
+	"publicidad.h"
+
