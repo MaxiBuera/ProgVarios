@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1539295594 source:c:\users\alumno\desktop\punteros\punteros\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
