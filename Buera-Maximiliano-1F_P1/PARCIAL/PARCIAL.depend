@@ -1,0 +1,54 @@
+# depslib dependency file v1.0
+1557184648 source:c:\users\alumno\desktop\parcial\parcial\libros.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"autores.h"
+	"libros.h"
+
+1557189466 source:c:\users\alumno\desktop\parcial\parcial\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"utn.h"
+	"autores.h"
+	"libros.h"
+	"socios.h"
+
+1556233951 c:\users\alumno\desktop\parcial\parcial\utn.h
+
+1557179925 source:c:\users\alumno\desktop\parcial\parcial\prestamos.c
+
+1557188962 source:c:\users\alumno\desktop\parcial\parcial\socios.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"autores.h"
+	"socios.h"
+
+1556233951 source:c:\users\alumno\desktop\parcial\parcial\utn.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"utn.h"
+
+1557187449 source:c:\users\alumno\desktop\parcial\parcial\autores.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"autores.h"
+
+1557183452 c:\users\alumno\desktop\parcial\parcial\autores.h
+
+1557184385 c:\users\alumno\desktop\parcial\parcial\libros.h
+
+1557186624 c:\users\alumno\desktop\parcial\parcial\socios.h
+
