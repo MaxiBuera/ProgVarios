@@ -13,7 +13,8 @@
 #define LIBROS 10
 #define SOCIOS 5
 #define PRESTAMOS 5
-
+#define M 0
+#define F 1
 //AUTORES LIBROS
 
 int main()
@@ -62,8 +63,8 @@ int main()
     printf("\n");
 //Socios
 
-    socio_altaForzada(arraySocios,SOCIOS,"Alberto","Diaz","m","42458798","alberto@mail.com",4,5,1999);
-    socio_altaForzada(arraySocios,SOCIOS,"Mariela","Perez","f","47328941","mariela@mail.com",1,12,2009);
+    socio_altaForzada(arraySocios,SOCIOS,"Alberto","Diaz",1,"42458798","alberto@mail.com",4,5,1999);
+    socio_altaForzada(arraySocios,SOCIOS,"Mariela","Perez",2,"47328941","mariela@mail.com",1,12,2009);
 
     socio_ordenarXapellido(arraySocios,SOCIOS,0);
     socio_ordenarXnombre(arraySocios,SOCIOS,0);
@@ -132,6 +133,16 @@ int main()
                     socio_ordenarXapellido(arraySocios,SOCIOS,0);
                     socio_ordenarXnombre(arraySocios,SOCIOS,0);
                     socio_listado(arraySocios,SOCIOS);
+                    printf("\n");
+                    libro_ordenarXtitulo(arrayLibros,LIBROS,0);
+                    libro_listado(arrayLibros,LIBROS);
+                    printf("\n");
+                    autor_ordenarXapellido(arrayAutores,AUTORES,0);
+                    autor_ordenarXnombre(arrayAutores,AUTORES,0);
+                    autor_listado(arrayAutores,AUTORES);
+
+
+
                     break;
                 }
 
@@ -145,8 +156,13 @@ int main()
 
                 if(flagMenu != 0){
 
-                    //prestamos(arrayPrestamos,SOCIOS);
-                    break;
+                    index = prestamo_buscarLugarLibre(arrayPrestamos,PRESTAMOS);
+                    if(index >= 0){
+
+                        prestamo_alta(arrayPrestamos,PRESTAMOS,index,arrayLibros,LIBROS,arraySocios,SOCIOS);
+                        flagMenu = 1;
+                        break;
+                    }
                 }
                 else{
 

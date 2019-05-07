@@ -108,6 +108,9 @@ int prestamo_alta(ePrestamo* arrayPrestamos, int limite, int index, eLibro* arra
         }
     }
 
+    if(retorno != 0)
+        printf("\nError\n");
+
     return retorno;
 
 }

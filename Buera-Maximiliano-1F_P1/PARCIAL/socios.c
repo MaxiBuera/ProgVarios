@@ -7,6 +7,8 @@
 #include "socios.h"
 #define OCUPADO 0
 #define LIBRE 1
+#define M 0
+#define F 1
 
 static int proximoId();
 
@@ -41,7 +43,7 @@ int socio_inicializar(eSocio* arraySocios, int limite){
             arraySocios[i].idSocios = -1;
             strcpy(arraySocios[i].apellido,"");
             strcpy(arraySocios[i].nombre,"");
-            strcpy(arraySocios[i].sexo,"");
+            arraySocios[i].sexo = -1;
             strcpy(arraySocios[i].telefono,"");
             strcpy(arraySocios[i].email,"");
             arraySocios[i].isEmpty = LIBRE;
@@ -56,7 +58,7 @@ int socio_alta(eSocio* arraySocios, int limite, int index){
     int retorno = -1;
     char apellidoAux[51];
     char nombreAux[51];
-    char sexoAux[1];
+    int sexoAux;
     char telefonoAux[16];
     char emailAux[31];
 
@@ -75,8 +77,7 @@ int socio_alta(eSocio* arraySocios, int limite, int index){
 
             if(getStringLetras("Ingrese nombre: ",nombreAux)){
 
-                fflush(stdin);
-                if(!getValidString("Ingrese sexo [F - M]: ","\nError\n","\nError[F - M]\n",sexoAux,2,2) && (sexoAux[0] == 'm' || sexoAux[0] == 'f')){
+                if(!getValidInt("Ingrese Sexo [1)Masculino 2)Femenino]: ","\nOpcion Invalida\n",&sexoAux,1,2,2)){
 
                     if(getStringNumeros("Ingrese telefono: ",telefonoAux)){
 
@@ -84,11 +85,11 @@ int socio_alta(eSocio* arraySocios, int limite, int index){
 
                             printf("\nIngrese Fecha de Asociado:\n");
 
-                            if(!getValidInt("\tDia: ","\nError",&diaAux,1,31,2)){
+                            if(!getValidInt("\tDia: ","\nError\n",&diaAux,1,31,2)){
 
-                                if(!getValidInt("\tMes: ","\nError",&mesAux,1,12,2)){
+                                if(!getValidInt("\tMes: ","\nError\n",&mesAux,1,12,2)){
 
-                                    if(!getValidInt("\tAnio: ","\nError",&anioAux,1980,2019,2)){
+                                    if(!getValidInt("\tAnio: ","\nError\n",&anioAux,1980,2019,2)){
 
                                         socio_normalizarCadena(apellidoAux);
                                         strcpy(arraySocios[index].apellido,apellidoAux);
@@ -96,7 +97,7 @@ int socio_alta(eSocio* arraySocios, int limite, int index){
                                         socio_normalizarCadena(nombreAux);
                                         strcpy(arraySocios[index].nombre,nombreAux);
 
-                                        strcpy(arraySocios[index].sexo,sexoAux);
+                                        arraySocios[index].sexo = sexoAux;
                                         strcpy(arraySocios[index].telefono,telefonoAux);
                                         strcpy(arraySocios[index].email,emailAux);
                                         arraySocios[index].fecha.dia = diaAux;
@@ -143,7 +144,7 @@ int socio_buscarLugarLibre(eSocio* arraySocios,int limite)
     return retorno;
 }
 
-int socio_altaForzada(eSocio* arraySocios,int limite,char* apellido,char* nombre, char* sexo, char* telefono, char* email, int dia,int mes,int anio)
+int socio_altaForzada(eSocio* arraySocios,int limite,char* apellido,char* nombre, int sexo, char* telefono, char* email, int dia,int mes,int anio)
 {
     int retorno = -1;
     int i;
@@ -156,7 +157,7 @@ int socio_altaForzada(eSocio* arraySocios,int limite,char* apellido,char* nombre
             retorno = 0;
             strcpy(arraySocios[i].apellido,apellido);
             strcpy(arraySocios[i].nombre,nombre);
-            strcpy(arraySocios[i].sexo,sexo);
+            arraySocios[i].sexo = sexo;
             strcpy(arraySocios[i].telefono,telefono);
             strcpy(arraySocios[i].email,email);
             arraySocios[i].fecha.dia = dia;
@@ -213,7 +214,7 @@ int socio_modificacion(eSocio* arraySocios, int limite,int index){
     int retorno = -1;
     char apellidoAux[31];
     char nombreAux[31];
-    char sexoAux[1];
+    int sexoAux;
     char telefonoAux[16];
     char emailAux[31];
 
@@ -244,9 +245,9 @@ int socio_modificacion(eSocio* arraySocios, int limite,int index){
 
         if(opc == 3){
 
-            if(!getValidString("Ingrese sexo [F - M]: ","\nError\n","\nError\n",sexoAux,1,2)  && (sexoAux[0] == 'm' || sexoAux[0] == 'f')){
+            if(!getValidInt("Ingrese Sexo [1)Masculino 2)Femenino]: ","\nOpcion Invalida\n",&sexoAux,1,2,2)){
 
-                strcpy(arraySocios[index].sexo,sexoAux);
+                arraySocios[index].sexo = sexoAux;
             }
         }
 
@@ -304,8 +305,7 @@ int socio_listado(eSocio* arraySocios,int limite){
         {
         	if(!arraySocios[i].isEmpty)
             {
-                printf("\n%s",arraySocios[i].sexo);
-           		printf("\n\t%s\t\t%s\t\t%d\t%s\t%s\n\tEmail: %s",arraySocios[i].apellido,arraySocios[i].nombre,arraySocios[i].idSocios,arraySocios[i].sexo,arraySocios[i].telefono,arraySocios[i].email);
+           		printf("\n\t%s\t\t%s\t\t%d\t%d\t%s\n\tEmail: %s",arraySocios[i].apellido,arraySocios[i].nombre,arraySocios[i].idSocios,arraySocios[i].sexo,arraySocios[i].telefono,arraySocios[i].email);
            		printf("\n\tFecha de Asociado: %d-%d-%d\n",arraySocios[i].fecha.dia,arraySocios[i].fecha.mes,arraySocios[i].fecha.anio);
            	}
         }

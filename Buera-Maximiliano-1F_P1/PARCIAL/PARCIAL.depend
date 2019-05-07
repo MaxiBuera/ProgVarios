@@ -75,7 +75,7 @@
 
 1557244433 c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\libros.h
 
-1557255886 source:c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\main.c
+1557260053 source:c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\main.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -86,7 +86,7 @@
 	"socios.h"
 	"prestamos.h"
 
-1557258479 c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\socios.h
+1557259065 c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\socios.h
 
 1557253859 source:c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\prestamos.c
 	<stdio.h>
@@ -99,7 +99,7 @@
 	"libros.h"
 	"prestamos.h"
 
-1557258479 source:c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\socios.c
+1557259850 source:c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\socios.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
