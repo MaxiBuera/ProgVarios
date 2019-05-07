@@ -23,10 +23,3 @@ int autor_listado(eAutor* arrayAutores,int limite);
 
 int autor_ordenarXapellido(eAutor* arrayAutores,int limite, int orden);
 int autor_ordenarXnombre(eAutor* arrayAutores,int limite, int orden);
-
-/*
-int empleado_ordenarXsector(eEmployee* arrayEmpleados,int limite, int orden);
-
-int empleado_promedioSueldos(eEmployee* arrayEmpleados,int limite);
-
-int empleado_mostrar(eEmployee* arrayEmpleados,int limite);*/

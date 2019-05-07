@@ -41,7 +41,7 @@ int socio_inicializar(eSocio* arraySocios, int limite){
             arraySocios[i].idSocios = -1;
             strcpy(arraySocios[i].apellido,"");
             strcpy(arraySocios[i].nombre,"");
-            arraySocios[i].sexo = ' ';
+            strcpy(arraySocios[i].sexo,"");
             strcpy(arraySocios[i].telefono,"");
             strcpy(arraySocios[i].email,"");
             arraySocios[i].isEmpty = LIBRE;
@@ -50,12 +50,13 @@ int socio_inicializar(eSocio* arraySocios, int limite){
     return retorno;
 }
 
+
 int socio_alta(eSocio* arraySocios, int limite, int index){
 
     int retorno = -1;
     char apellidoAux[51];
     char nombreAux[51];
-    char sexoAux;
+    char sexoAux[1];
     char telefonoAux[16];
     char emailAux[31];
 
@@ -70,17 +71,18 @@ int socio_alta(eSocio* arraySocios, int limite, int index){
         retorno = -2;
         id = proximoId();
 
-        if(getStringLetras("Ingrese nombre: ",apellidoAux)){
+        if(getStringLetras("Ingrese apellido: ",apellidoAux)){
 
-            if(getStringLetras("Ingrese apellido: ",nombreAux)){
+            if(getStringLetras("Ingrese nombre: ",nombreAux)){
 
-                if(!getValidString("Ingrese sexo [F - M]: ","\nError","\nError",&sexoAux,1,2) && (sexoAux != 'm' || sexoAux != 'f')){
+                fflush(stdin);
+                if(!getValidString("Ingrese sexo [F - M]: ","\nError\n","\nError[F - M]\n",sexoAux,2,2) && (sexoAux[0] == 'm' || sexoAux[0] == 'f')){
 
-                    if(getStringLetras("Ingrese telefono: ",telefonoAux)){
+                    if(getStringNumeros("Ingrese telefono: ",telefonoAux)){
 
-                       if(getStringLetras("Ingrese email: ",emailAux)){
+                       if(getStringAllCharacters("Ingrese email: ",emailAux)){
 
-                            printf("Ingrese Fecha de Asociado:\n");
+                            printf("\nIngrese Fecha de Asociado:\n");
 
                             if(!getValidInt("\tDia: ","\nError",&diaAux,1,31,2)){
 
@@ -94,7 +96,7 @@ int socio_alta(eSocio* arraySocios, int limite, int index){
                                         socio_normalizarCadena(nombreAux);
                                         strcpy(arraySocios[index].nombre,nombreAux);
 
-                                        arraySocios[index].sexo = sexoAux;
+                                        strcpy(arraySocios[index].sexo,sexoAux);
                                         strcpy(arraySocios[index].telefono,telefonoAux);
                                         strcpy(arraySocios[index].email,emailAux);
                                         arraySocios[index].fecha.dia = diaAux;
@@ -114,6 +116,9 @@ int socio_alta(eSocio* arraySocios, int limite, int index){
             }
         }
     }
+
+    if(retorno != 0)
+        printf("\nError\n");
 
     return retorno;
 
@@ -138,7 +143,7 @@ int socio_buscarLugarLibre(eSocio* arraySocios,int limite)
     return retorno;
 }
 
-int socio_altaForzada(eSocio* arraySocios,int limite,char* apellido,char* nombre, char sexo, char* telefono, char* email, int dia,int mes,int anio)
+int socio_altaForzada(eSocio* arraySocios,int limite,char* apellido,char* nombre, char* sexo, char* telefono, char* email, int dia,int mes,int anio)
 {
     int retorno = -1;
     int i;
@@ -151,7 +156,7 @@ int socio_altaForzada(eSocio* arraySocios,int limite,char* apellido,char* nombre
             retorno = 0;
             strcpy(arraySocios[i].apellido,apellido);
             strcpy(arraySocios[i].nombre,nombre);
-            arraySocios[i].sexo = sexo;
+            strcpy(arraySocios[i].sexo,sexo);
             strcpy(arraySocios[i].telefono,telefono);
             strcpy(arraySocios[i].email,email);
             arraySocios[i].fecha.dia = dia;
@@ -193,7 +198,7 @@ int socio_menuModificacion(){
     int retorno = -1;
 
     //printf("\nModificar:\n\t\t1)Apellido\n\t\t2)Nombre");
-    if(!getValidInt("\nModificar:\n\t\t1)Apellido\n\t\t2)Nombre\n\t\t3)Sexo\n\t\t4)Telefono\n\t\t5)Email","\nError",&opc,1,5,2)){
+    if(!getValidInt("\nModificar:\n\t\t1)Apellido\n\t\t2)Nombre\n\t\t3)Sexo\n\t\t4)Telefono\n\t\t5)Email\n","\nError",&opc,1,5,2)){
 
         return opc;
     }
@@ -208,7 +213,7 @@ int socio_modificacion(eSocio* arraySocios, int limite,int index){
     int retorno = -1;
     char apellidoAux[31];
     char nombreAux[31];
-    char sexoAux;
+    char sexoAux[1];
     char telefonoAux[16];
     char emailAux[31];
 
@@ -239,9 +244,9 @@ int socio_modificacion(eSocio* arraySocios, int limite,int index){
 
         if(opc == 3){
 
-            if(!getValidString("Ingrese sexo [F - M]: ","\nError","\nError",&sexoAux,1,2) && (sexoAux != 'm' || sexoAux != 'f')){
+            if(!getValidString("Ingrese sexo [F - M]: ","\nError\n","\nError\n",sexoAux,1,2)  && (sexoAux[0] == 'm' || sexoAux[0] == 'f')){
 
-                arraySocios[index].sexo = sexoAux;
+                strcpy(arraySocios[index].sexo,sexoAux);
             }
         }
 
@@ -282,7 +287,7 @@ int socio_baja(eSocio* arraySocios, int limite,int index){
 
     else{
 
-        printf("\nCodigo de Autor no encontrado");
+        printf("\nCodigo de Socio no encontrado");
     }
     return retorno;
 }
@@ -294,14 +299,14 @@ int socio_listado(eSocio* arraySocios,int limite){
     if(limite > 0 && arraySocios != NULL)
     {
         retorno = 0;
-        printf("\n\tNombre\t\tApellido\tCodigo");
+        printf("\n\tNombre Socio\tApellido Socio\tCodigo\tSexo\t\tTelefono");
         for(i=0;i<limite;i++)
         {
         	if(!arraySocios[i].isEmpty)
             {
-
-           		printf("\n\t%s\t\t%s\t\t%d,\t\t%c,\t\t%s,\t\t%s",arraySocios[i].apellido,arraySocios[i].nombre,arraySocios[i].idSocios,arraySocios[i].sexo,arraySocios[i].telefono,arraySocios[i].email);
-           		printf("\nFecha de Asociado: %d-%d-%d\n",arraySocios[i].fecha.dia,arraySocios[i].fecha.mes,arraySocios[i].fecha.anio);
+                printf("\n%s",arraySocios[i].sexo);
+           		printf("\n\t%s\t\t%s\t\t%d\t%s\t%s\n\tEmail: %s",arraySocios[i].apellido,arraySocios[i].nombre,arraySocios[i].idSocios,arraySocios[i].sexo,arraySocios[i].telefono,arraySocios[i].email);
+           		printf("\n\tFecha de Asociado: %d-%d-%d\n",arraySocios[i].fecha.dia,arraySocios[i].fecha.mes,arraySocios[i].fecha.anio);
            	}
         }
     }

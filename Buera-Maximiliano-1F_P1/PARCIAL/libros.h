@@ -11,9 +11,9 @@ typedef struct{
 #endif // LIBROS_H_INCLUDED
 
 int libro_inicializar(eLibro* arrayLibros, int limite);
-int libro_alta(eLibro* arrayLibros, int limite, int index);
-int libro_altaForzada(eLibro* arrayLibros,int limite,char* apellido,char* nombre);
-int libro_modificacion(eLibro* arrayLibros, int limite, int index);
+int libro_alta(eLibro* arrayLibros, int limite, int index, eAutor* arrayAutores, int limiteAutores);
+int libro_altaForzada(eLibro* arrayLibros,int limite,char* titulo,int idAutor);
+int libro_modificacion(eLibro* arrayLibros, int limite, eAutor* arrayAutores, int limiteAutores,int index);
 int libro_baja(eLibro* arrayLibros, int limite, int index);
 
 int libro_buscarLugarLibre(eLibro* arrayLibros,int limite);
@@ -21,5 +21,4 @@ int libro_buscarPorId(eLibro* arrayLibros,int limite, int id);
 
 int libro_listado(eLibro* arrayLibros,int limite);
 
-int libro_ordenarXapellido(eLibro* arrayLibros,int limite, int orden);
-int libro_ordenarXnombre(eLibro* arrayLibros,int limite, int orden);
+int libro_ordenarXtitulo(eLibro* arrayLibros,int limite, int orden);

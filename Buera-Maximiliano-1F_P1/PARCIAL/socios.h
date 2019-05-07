@@ -5,16 +5,16 @@ typedef struct{
     int dia;
     int mes;
     int anio;
-}eFecha;
+}eFechaS;
 
 typedef struct{
     int idSocios;
     char apellido[31];
     char nombre[31];
-    char sexo;
+    char sexo[1];
     char telefono[16];
     char email[31];
-    eFecha fecha;
+    eFechaS fecha;
     int isEmpty;
 }eSocio;
 
@@ -22,7 +22,7 @@ typedef struct{
 
 int socio_inicializar(eSocio* arraySocios, int limite);
 int socio_alta(eSocio* arraySocios, int limite, int index);
-int socio_altaForzada(eSocio* arraySocios,int limite,char* apellido,char* nombre, char sexo, char* telefono, char* email, int dia,int mes,int anio);
+int socio_altaForzada(eSocio* arraySocios,int limite,char* apellido,char* nombre, char* sexo, char* telefono, char* email, int dia,int mes,int anio);
 int socio_modificacion(eSocio* arraySocios, int limite, int index);
 int socio_baja(eSocio* arraySocios, int limite, int index);
 

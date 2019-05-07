@@ -52,3 +52,68 @@
 
 1557186624 c:\users\alumno\desktop\parcial\parcial\socios.h
 
+1557255280 source:c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\autores.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"autores.h"
+
+1557256738 c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\utn.h
+
+1557243817 c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\autores.h
+
+1557245979 source:c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\libros.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"autores.h"
+	"libros.h"
+
+1557244433 c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\libros.h
+
+1557255886 source:c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"utn.h"
+	"autores.h"
+	"libros.h"
+	"socios.h"
+	"prestamos.h"
+
+1557258479 c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\socios.h
+
+1557253859 source:c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\prestamos.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"autores.h"
+	"socios.h"
+	"libros.h"
+	"prestamos.h"
+
+1557258479 source:c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\socios.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"autores.h"
+	"socios.h"
+
+1556233951 source:c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\utn.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"utn.h"
+
+1557249319 c:\users\maxi\desktop\buera-maximiliano-1f_p1\parcial\prestamos.h
+

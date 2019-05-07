@@ -5,6 +5,7 @@
 #include "utn.h"
 #include "autores.h"
 #include "libros.h"
+
 #define OCUPADO 0
 #define LIBRE 1
 
@@ -46,20 +47,25 @@ int libro_inicializar(eLibro* arrayLibros, int limite){
     return retorno;
 }
 
-/*int verificarAutor(int idAutor,int limiteAutores){
+int verificarAutor(eAutor* arrayAutores, int limiteAutores, int idAutor){
 
     int i;
+    int retorno = -1;
 
-    for(i=0;i<limite;i++){
+    for(i=0;i<limiteAutores;i++){
 
-        if(){
+        if(idAutor == arrayAutores[i].idAutores){
 
+            retorno = 0;
+            return retorno;
         }
     }
 
-}*/
+    return retorno;
+}
 
-/*int libro_alta(eLibro* arrayLibros, int limite, int index, eAutor* arrayAutores, int limiteAutores){
+
+int libro_alta(eLibro* arrayLibros, int limite, int index, eAutor* arrayAutores, int limiteAutores){
 
     int retorno = -1;
     char tituloAux[51];
@@ -73,35 +79,35 @@ int libro_inicializar(eLibro* arrayLibros, int limite){
 
         if(getStringLetras("Ingrese titulo del libro: ",tituloAux)){
 
+            if(!getValidInt("Ingrese ID de Autor: ","\nError",&idAutor,0,limiteAutores,2) && (!verificarAutor(arrayAutores,limiteAutores,idAutor))){
 
-
-                autor_normalizarCadena(tituloAux);
+                libro_normalizarCadena(tituloAux);
                 strcpy(arrayLibros[index].titulo,tituloAux);
-
 
                 arrayLibros[index].isEmpty = OCUPADO;
                 arrayLibros[index].idLibros = id;
+                arrayLibros[index].idAutores = idAutor;
                 retorno = 0;
-
             }
+
         }
     }
 
     return retorno;
 
-}*/
+}
 
-/*
-int autor_buscarLugarLibre(eAutor* arrayAutores,int limite)
+
+int libro_buscarLugarLibre(eLibro* arrayLibros,int limite)
 {
     int retorno = -1;
     int i;
-    if(limite > 0 && arrayAutores != NULL)
+    if(limite > 0 && arrayLibros != NULL)
     {
         retorno = -2;
         for(i=0;i<limite;i++)
         {
-            if(arrayAutores[i].isEmpty == LIBRE)
+            if(arrayLibros[i].isEmpty == LIBRE)
             {
                 retorno = i;
                 break;
@@ -111,23 +117,22 @@ int autor_buscarLugarLibre(eAutor* arrayAutores,int limite)
     return retorno;
 }
 
-int autor_altaForzada(eAutor* arrayAutores,int limite,char* apellido,char* nombre)
+
+int libro_altaForzada(eLibro* arrayLibros,int limite,char* titulo,int idAutor)
 {
     int retorno = -1;
     int i;
 
-    if(limite > 0 && arrayAutores != NULL)
+    if(limite > 0 && arrayLibros != NULL)
     {
-        i = autor_buscarLugarLibre(arrayAutores,limite);
+        i = libro_buscarLugarLibre(arrayLibros,limite);
         if(i >= 0)
         {
             retorno = 0;
-            strcpy(arrayAutores[i].apellido,apellido);
-            strcpy(arrayAutores[i].nombre,nombre);
-            //------------------------------
-            //------------------------------
-            arrayAutores[i].idAutores = proximoId();
-            arrayAutores[i].isEmpty = OCUPADO;
+            arrayLibros[i].idLibros = proximoId();
+            strcpy(arrayLibros[i].titulo,titulo);
+            arrayLibros[i].idAutores = idAutor;
+            arrayLibros[i].isEmpty = OCUPADO;
         }
         retorno = 0;
     }
@@ -135,16 +140,16 @@ int autor_altaForzada(eAutor* arrayAutores,int limite,char* apellido,char* nombr
 }
 
 
-int autor_buscarPorId(eAutor* arrayAutores,int limite, int id)
+int libro_buscarPorId(eLibro* arrayLibros,int limite, int id)
 {
     int retorno = -1;
     int i;
-    if(limite > 0 && arrayAutores != NULL)
+    if(limite > 0 && arrayLibros != NULL)
     {
         retorno = -2;
         for(i=0;i<limite;i++)
         {
-            if(arrayAutores[i].isEmpty == OCUPADO && arrayAutores[i].idAutores == id)
+            if(arrayLibros[i].isEmpty == OCUPADO && arrayLibros[i].idLibros == id)
             {
                 retorno = i;
                 break;
@@ -154,13 +159,13 @@ int autor_buscarPorId(eAutor* arrayAutores,int limite, int id)
     return retorno;
 }
 
-int autor_menuModificacion(){
+int libro_menuModificacion(){
 
     int opc;
     int retorno = -1;
 
     //printf("\nModificar:\n\t\t1)Apellido\n\t\t2)Nombre");
-    if(!getValidInt("\nModificar:\n\t\t1)Apellido\n\t\t2)Nombre","\nError",&opc,0,2,2)){
+    if(!getValidInt("\nModificar:\n\t\t1)Titulo\n\t\t2)ID de Libro\n","\nError",&opc,0,2,2)){
 
         return opc;
     }
@@ -168,36 +173,37 @@ int autor_menuModificacion(){
     return retorno;
 }
 
-int empleado_modificacion(eAutor* arrayAutores, int limite,int index){
+
+int libro_modificacion(eLibro* arrayLibros, int limite, eAutor* arrayAutores, int limiteAutores,int index){
 
     int indice;
     int retorno = -1;
-    char apellidoAux[31];
-    char nombreAux[31];
+    char tituloAux[51];
+    int idAutorAux;
     int opc;
 
-    indice = autor_buscarPorId(arrayAutores,limite,index);
+    indice = libro_buscarPorId(arrayLibros,limite,index);
     if(indice >= 0)
     {
         retorno = 0;
 
-        opc = autor_menuModificacion();
+        opc = libro_menuModificacion();
 
         if(opc == 1){
 
-            if(getStringLetras("Ingrese apellido: ",apellidoAux)){
+            if(getStringLetras("Ingrese titulo: ",tituloAux)){
 
-            strcpy(arrayAutores[index].apellido,apellidoAux);
-            arrayAutores[index].isEmpty = OCUPADO;
+                libro_normalizarCadena(tituloAux);
+                strcpy(arrayLibros[index].titulo,tituloAux);
+
             }
         }
 
         if(opc == 2){
 
-            if(getStringLetras("Ingrese nombre: ",nombreAux)){
+            if(!getValidInt("Ingrese ID de Autor: ","\nError",&idAutorAux,0,limiteAutores,2) && (!verificarAutor(arrayAutores,limiteAutores,idAutorAux))){
 
-                strcpy(arrayAutores[index].nombre,nombreAux);
-                arrayAutores[index].isEmpty = OCUPADO;
+             arrayLibros[index].idAutores = idAutorAux;
             }
         }
     }
@@ -208,37 +214,37 @@ int empleado_modificacion(eAutor* arrayAutores, int limite,int index){
     return retorno;
 }
 
-int autor_baja(eAutor* arrayAutores, int limite,int index){
+int libro_baja(eLibro* arrayLibros, int limite,int index){
 
     int retorno = -1;
     int indice;
-    indice = autor_buscarPorId(arrayAutores,limite,index);
+    indice = libro_buscarPorId(arrayLibros,limite,index);
     if(indice >= 0)
     {
         retorno = 0;
-        arrayAutores[indice].isEmpty = LIBRE;
+        arrayLibros[indice].isEmpty = LIBRE;
     }
     else{
 
-        printf("\nCodigo de Autor no encontrado");
+        printf("\nCodigo de Libro no encontrado");
     }
     return retorno;
 }
 
-int autor_listado(eAutor* arrayAutores,int limite){
+int libro_listado(eLibro* arrayLibros,int limite){
 
     int retorno = -1;
     int i;
-    if(limite > 0 && arrayAutores != NULL)
+    if(limite > 0 && arrayLibros != NULL)
     {
         retorno = 0;
-        printf("\n\tNombre\t\tApellido\tCodigo");
+        printf("\n\tTitulo\t\tCodigo del Libro\tCodigo de Autor");
         for(i=0;i<limite;i++)
         {
-        	if(!arrayAutores[i].isEmpty)
+        	if(!arrayLibros[i].isEmpty)
             {
 
-           		printf("\n\t%s\t\t%s\t\t%d",arrayAutores[i].apellido,arrayAutores[i].nombre,arrayAutores[i].idAutores);
+           		printf("\n\t%s\t\t%d\t\t%d",arrayLibros[i].titulo,arrayLibros[i].idLibros,arrayLibros[i].idAutores);
            		//printf("\n\t%s\t\t%s\t%d",arrayEmpleados[i].name,arrayPantalla[i].lastname,arrayEmpleados[i].id,arrayEmpleados[i].sector,arrayEmpleados[i].salary);
         	}
         }
@@ -246,14 +252,14 @@ int autor_listado(eAutor* arrayAutores,int limite){
     return retorno;
 }
 
-int autor_ordenarXapellido(eAutor* arrayAutores,int limite, int orden)
+int libro_ordenarXtitulo(eLibro* arrayLibros,int limite, int orden)
 {
     int retorno = -1;
     int flagSwap;
     int i;
-    eAutor auxiliar;
+    eLibro auxiliar;
 
-    if(limite > 0 && arrayAutores != NULL)
+    if(limite > 0 && arrayLibros != NULL)
     {
         retorno = 0;
         do
@@ -261,13 +267,13 @@ int autor_ordenarXapellido(eAutor* arrayAutores,int limite, int orden)
             flagSwap = 0;
             for(i=0;i<limite-1;i++)
             {
-                    if(arrayAutores[i].isEmpty == OCUPADO && arrayAutores[i+1].isEmpty == OCUPADO )
+                    if(arrayLibros[i].isEmpty == OCUPADO && arrayLibros[i+1].isEmpty == OCUPADO )
                     {
-                        if((strcmp(arrayAutores[i].apellido,arrayAutores[i+1].apellido) > 0 && !orden) || (strcmp(arrayAutores[i].apellido,arrayAutores[i+1].apellido) < 0 && orden))
+                        if((strcmp(arrayLibros[i].titulo,arrayLibros[i+1].titulo) > 0 && !orden) || (strcmp(arrayLibros[i].titulo,arrayLibros[i+1].titulo) < 0 && orden))
                         {
-                            auxiliar = arrayAutores[i];
-                            arrayAutores[i] = arrayAutores[i+1];
-                            arrayAutores[i+1] = auxiliar;
+                            auxiliar = arrayLibros[i];
+                            arrayLibros[i] = arrayLibros[i+1];
+                            arrayLibros[i+1] = auxiliar;
                             flagSwap = 1;
                         }
                     }
@@ -278,38 +284,7 @@ int autor_ordenarXapellido(eAutor* arrayAutores,int limite, int orden)
     return retorno;
 }
 
-int autor_ordenarXnombre(eAutor* arrayAutores,int limite, int orden)
-{
-    int retorno = -1;
-    int flagSwap;
-    int i;
-    eAutor auxiliar;
 
-    if(limite > 0 && arrayAutores != NULL)
-    {
-        retorno = 0;
-        do
-        {
-            flagSwap = 0;
-            for(i=0;i<limite-1;i++)
-            {
-                    if(arrayAutores[i].isEmpty == OCUPADO && arrayAutores[i+1].isEmpty == OCUPADO )
-                    {
-                        if((strcmp(arrayAutores[i].nombre,arrayAutores[i+1].nombre) > 0 && !orden) || (strcmp(arrayAutores[i].nombre,arrayAutores[i+1].nombre) < 0 && orden))
-                        {
-                            auxiliar = arrayAutores[i];
-                            arrayAutores[i] = arrayAutores[i+1];
-                            arrayAutores[i+1] = auxiliar;
-                            flagSwap = 1;
-                        }
-                    }
-            }
-        }while(flagSwap);
-    }
-
-    return retorno;
-}
-*/
 static int proximoId()
 {
     static int ultimoId = -1;

@@ -4,73 +4,106 @@
 #include <ctype.h>
 #include "utn.h"
 #include "autores.h"
+#include "socios.h"
+#include "libros.h"
+#include "prestamos.h"
 #define OCUPADO 0
 #define LIBRE 1
 
 static int proximoId();
 
-void autor_normalizarCadena(char cadena[]){
 
-    int j,i;
-    i = strlen(cadena);
-
-    for(j=0;j<i;j++){
-
-        if(j==0){
-
-            cadena[j] = toupper(cadena[j]);
-        }
-        else{
-
-            cadena[j] = tolower(cadena[j]);
-        }
-    }
-}
-
-int autor_inicializar(eAutor* arrayAutores, int limite){
+int prestamo_inicializar(ePrestamo* arrayPrestamos, int limite){
 
     int retorno = -1;
     int i;
-    if(limite > 0 && arrayAutores != NULL)
+    if(limite > 0 && arrayPrestamos != NULL)
     {
         retorno = 0;
         for(i=0;i<limite;i++)
         {
-            arrayAutores[i].idAutores = -1;
-            strcpy(arrayAutores[i].apellido,"");
-            strcpy(arrayAutores[i].nombre,"");
-            arrayAutores[i].isEmpty = LIBRE;
+            arrayPrestamos[i].idPrestamos = -1;
+            arrayPrestamos[i].idLibro = -1;
+            arrayPrestamos[i].idSocio = -1;
+            arrayPrestamos[i].isEmpty = LIBRE;
         }
     }
     return retorno;
 }
 
-int autor_alta(eAutor* arrayAutores, int limite, int index){
+int verificarLibro(eLibro* arrayLibros, int limiteLibros, int idLibro){
+
+    int i;
+    int retorno = -1;
+
+    for(i=0;i<limiteLibros;i++){
+
+        if(idLibro == arrayLibros[i].idLibros){
+
+            retorno = 0;
+            return retorno;
+        }
+    }
+
+    return retorno;
+}
+
+int verificarSocio(eSocio* arraySocios, int limiteSocios, int idSocio){
+
+    int i;
+    int retorno = -1;
+
+    for(i=0;i<limiteSocios;i++){
+
+        if(idSocio == arraySocios[i].idSocios){
+
+            retorno = 0;
+            return retorno;
+        }
+    }
+
+    return retorno;
+}
+
+int prestamo_alta(ePrestamo* arrayPrestamos, int limite, int index, eLibro* arrayLibros, int limiteLibros, eSocio* arraySocios, int limiteSocios){
 
     int retorno = -1;
-    char apellidoAux[51];
-    char nombreAux[51];
+    int idLibroAux;
+    int idSocioAux;
+
+    int diaAux;
+    int mesAux;
+    int anioAux;
+
     int id;
 
-    if(limite > 0 && arrayAutores != NULL){
+    if(limite > 0 && arrayPrestamos != NULL){
 
         retorno = -2;
         id = proximoId();
 
-        if(getStringLetras("Ingrese nombre: ",apellidoAux)){
+        if(!getValidInt("Ingrese ID del Libro: ","\nError",&idLibroAux,0,limiteLibros,2) && (!verificarLibro(arrayLibros,limiteLibros,idLibroAux))){
 
-            if(getStringLetras("Ingrese apellido: ",nombreAux)){
+            if(!getValidInt("Ingrese ID de Socio: ","\nError",&idSocioAux,0,limiteSocios,2) && (!verificarSocio(arraySocios,limiteSocios,idSocioAux))){
 
-                autor_normalizarCadena(apellidoAux);
-                strcpy(arrayAutores[index].apellido,apellidoAux);
+                printf("Ingrese Fecha de Asociado:\n");
 
-                autor_normalizarCadena(nombreAux);
-                strcpy(arrayAutores[index].nombre,nombreAux);
+                if(!getValidInt("\tDia: ","\nError",&diaAux,1,31,2)){
 
-                arrayAutores[index].isEmpty = OCUPADO;
-                arrayAutores[index].idAutores = id;
-                retorno = 0;
+                    if(!getValidInt("\tMes: ","\nError",&mesAux,1,12,2)){
 
+                        if(!getValidInt("\tAnio: ","\nError",&anioAux,1980,2019,2)){
+
+                            arrayPrestamos[index].idLibro = idLibroAux;
+                            arrayPrestamos[index].idSocio = idSocioAux;
+                            arrayPrestamos[index].fechaPrestamo.dia = diaAux;
+
+                            arrayPrestamos[index].isEmpty = OCUPADO;
+                            arrayPrestamos[index].idPrestamos = id;
+                            retorno = 0;
+                        }
+                    }
+                }
             }
         }
     }
@@ -79,16 +112,16 @@ int autor_alta(eAutor* arrayAutores, int limite, int index){
 
 }
 
-int autor_buscarLugarLibre(eAutor* arrayAutores,int limite)
+int prestamo_buscarLugarLibre(ePrestamo* arrayPrestamos,int limite)
 {
     int retorno = -1;
     int i;
-    if(limite > 0 && arrayAutores != NULL)
+    if(limite > 0 && arrayPrestamos != NULL)
     {
         retorno = -2;
         for(i=0;i<limite;i++)
         {
-            if(arrayAutores[i].isEmpty == LIBRE)
+            if(arrayPrestamos[i].isEmpty == LIBRE)
             {
                 retorno = i;
                 break;
@@ -98,49 +131,52 @@ int autor_buscarLugarLibre(eAutor* arrayAutores,int limite)
     return retorno;
 }
 
-int autor_altaForzada(eAutor* arrayAutores,int limite,char* apellido,char* nombre)
+int prestamo_altaForzada(ePrestamo* arrayPrestamos,int limite,int idLibro, int idSocio,int dia, int mes, int anio)
 {
     int retorno = -1;
     int i;
 
-    if(limite > 0 && arrayAutores != NULL)
+    if(limite > 0 && arrayPrestamos != NULL)
     {
-        i = autor_buscarLugarLibre(arrayAutores,limite);
+        i = prestamo_buscarLugarLibre(arrayPrestamos,limite);
         if(i >= 0)
         {
             retorno = 0;
-            strcpy(arrayAutores[i].apellido,apellido);
-            strcpy(arrayAutores[i].nombre,nombre);
+            arrayPrestamos[i].idLibro = idLibro;
+            arrayPrestamos[i].idSocio = idSocio;
+            arrayPrestamos[i].fechaPrestamo.dia = dia;
+            arrayPrestamos[i].fechaPrestamo.mes = mes;
+            arrayPrestamos[i].fechaPrestamo.anio = anio;
             //------------------------------
             //------------------------------
-            arrayAutores[i].idAutores = proximoId();
-            arrayAutores[i].isEmpty = OCUPADO;
+            arrayPrestamos[i].idPrestamos = proximoId();
+            arrayPrestamos[i].isEmpty = OCUPADO;
         }
         retorno = 0;
     }
     return retorno;
 }
 
-
-int autor_buscarPorId(eAutor* arrayAutores,int limite, int id)
+int prestamo_buscarPorId(ePrestamo* arrayPrestamos,int limite, int id)
 {
     int retorno = -1;
     int i;
-    if(limite > 0 && arrayAutores != NULL)
+    if(limite > 0 && arrayPrestamos != NULL)
     {
         retorno = -2;
         for(i=0;i<limite;i++)
         {
-            if(arrayAutores[i].isEmpty == OCUPADO && arrayAutores[i].idAutores == id)
+            if(arrayPrestamos[i].isEmpty == OCUPADO && arrayPrestamos[i].idPrestamos == id)
             {
                 retorno = i;
                 break;
             }
         }
     }
+
     return retorno;
 }
-
+/*
 int autor_menuModificacion(){
 
     int opc;
@@ -155,7 +191,7 @@ int autor_menuModificacion(){
     return retorno;
 }
 
-int empleado_modificacion(eAutor* arrayAutores, int limite,int index){
+int empleado_modificacion(ePrestamo* arrayAutores, int limite,int index){
 
     int indice;
     int retorno = -1;
@@ -195,7 +231,7 @@ int empleado_modificacion(eAutor* arrayAutores, int limite,int index){
     return retorno;
 }
 
-int autor_baja(eAutor* arrayAutores, int limite,int index){
+int autor_baja(ePrestamo* arrayAutores, int limite,int index){
 
     int retorno = -1;
     int indice;
@@ -212,20 +248,20 @@ int autor_baja(eAutor* arrayAutores, int limite,int index){
     return retorno;
 }
 
-int autor_listado(eAutor* arrayAutores,int limite){
+int autor_listado(ePrestamo* arrayAutores,int limite){
 
     int retorno = -1;
     int i;
     if(limite > 0 && arrayAutores != NULL)
     {
         retorno = 0;
-        printf("\n\tNombre del Autor\tApellido\tCodigo");
+        printf("\n\tNombre\t\tApellido\tCodigo");
         for(i=0;i<limite;i++)
         {
         	if(!arrayAutores[i].isEmpty)
             {
 
-           		printf("\n\t%s\t\t\t%s\t\t%d",arrayAutores[i].apellido,arrayAutores[i].nombre,arrayAutores[i].idAutores);
+           		printf("\n\t%s\t\t%s\t\t%d",arrayAutores[i].apellido,arrayAutores[i].nombre,arrayAutores[i].idAutores);
            		//printf("\n\t%s\t\t%s\t%d",arrayEmpleados[i].name,arrayPantalla[i].lastname,arrayEmpleados[i].id,arrayEmpleados[i].sector,arrayEmpleados[i].salary);
         	}
         }
@@ -233,12 +269,12 @@ int autor_listado(eAutor* arrayAutores,int limite){
     return retorno;
 }
 
-int autor_ordenarXapellido(eAutor* arrayAutores,int limite, int orden)
+int autor_ordenarXapellido(ePrestamo* arrayAutores,int limite, int orden)
 {
     int retorno = -1;
     int flagSwap;
     int i;
-    eAutor auxiliar;
+    ePrestamo auxiliar;
 
     if(limite > 0 && arrayAutores != NULL)
     {
@@ -265,12 +301,12 @@ int autor_ordenarXapellido(eAutor* arrayAutores,int limite, int orden)
     return retorno;
 }
 
-int autor_ordenarXnombre(eAutor* arrayAutores,int limite, int orden)
+int autor_ordenarXnombre(ePrestamo* arrayAutores,int limite, int orden)
 {
     int retorno = -1;
     int flagSwap;
     int i;
-    eAutor auxiliar;
+    ePrestamo auxiliar;
 
     if(limite > 0 && arrayAutores != NULL)
     {
@@ -295,7 +331,7 @@ int autor_ordenarXnombre(eAutor* arrayAutores,int limite, int orden)
     }
 
     return retorno;
-}
+}*/
 
 static int proximoId()
 {
@@ -303,3 +339,4 @@ static int proximoId()
     ultimoId++;
     return ultimoId;
 }
+
